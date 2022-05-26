@@ -2,12 +2,19 @@
 
 Project Quay consist of several products:
 
-- PostgreSQL container
-- Redis container
-- Clair container
-- Quay container
+- PostgreSQL container: Database for image metadata
+- Redis container: In-memory key/value store
+- Clair container: Container vulnerability scanner
+- Quay container: Container registry
 
 All products run within the same pod and use the same pod network.
+
+Setup Project Quay working directory for persistence:
+
+```bash
+mkdir -p /ProjectQuay/{pgdata,clair,quaydata}
+
+```
 
 ## Deploy Postgres
 ```bash
