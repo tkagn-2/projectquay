@@ -7,7 +7,7 @@ Project Quay consist of several products:
 - Clair container
 - Quay container
 
-All products run within same pod.
+All products run within the same pod and use the same pod network.
 
 ## Deploy Postgres
 ```bash
@@ -29,7 +29,7 @@ Add pg_trgm module
 $ podman exec -it postgresql /bin/bash -c 'echo "CREATE EXTENSION IF NOT EXISTS pg_trgm" | psql -d quay -U postgres'
 ```
 
-## Redis
+## Deploy/run Redis
 
 `  podman pod create --name redis `
 
@@ -41,14 +41,14 @@ podman run -d --rm --name redis-container \
         --requirepass strongpassword
 ```
 
-# Run Clair
+# Deploy/run Clair
 
 ```
 podman run -d --name clair -e GODEBUG=x509ignoreCN=0 -e CLAIR_MODE=combo -e CLAIR_CONF=/config/config.yml --network quay -p 6060-6061:6060-6061 -p 8082:8080 -v clair-config:/config:Z quay.io/projectquay/clair:4.3.5
 ```
 
 
-## Quay Config Tool
+## Deploy/run Quay Config Tool
 ```bash
 podman volume create quaydata
 
@@ -60,7 +60,7 @@ podman run --rm -d --name quay_config --network quay --pod quay -p 8443:8443 -p 
  quay.io/projectquay/quay:latest config secret
 ```
 
-## Run Quay
+## Deploy/run Quay
 ```bash
 podman run --rm -p 8080:8080 -p 8443:8443 \
    --name=quay \
